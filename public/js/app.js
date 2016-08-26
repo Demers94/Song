@@ -1,4 +1,7 @@
 $(function(){
+
+	var socket = io();
+
 	$('form').on('submit', function(){
 		var $url = $('#url');
 		var $title = $('#title');
@@ -12,14 +15,22 @@ $(function(){
 		$title.val('');
 		$artist.val('');
 
-		$.post('/download', {
+		socket.emit('download song', {
 			url: url,
 			title: title,
 			artist: artist,
-		}, function(res){
-			console.log(res);
 		});
 
 		return false;
+	});
+
+	socket.on('download finished', function(data){
+		var $notification = $('.notification');
+		$notification.text('The song "' + data.title + '" has finished downloading.');
+
+		$notification.fadeIn();
+		setTimeout(function(){
+			$notification.fadeOut();
+		}, 4000);
 	});
 });

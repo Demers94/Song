@@ -56,3 +56,13 @@ button{
 button:hover{
 	cursor: pointer;
 }
+
+/* Notification */
+.notification{
+	padding: 15px;
+	background-color: #07c07c;	
+	color: #fff;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	margin-bottom: 30px;
+	display: none;
+}
