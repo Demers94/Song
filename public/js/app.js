@@ -25,12 +25,16 @@ $(function(){
 	});
 
 	socket.on('download finished', function(data){
-		var $notification = $('.notification');
-		$notification.text('The song "' + data.title + '" has finished downloading.');
-
-		$notification.fadeIn();
-		setTimeout(function(){
-			$notification.fadeOut();
-		}, 4000);
+		notify('The song "' + data.title + '" has finished downloading');
 	});
+
+	function notify(message){
+		Notification.requestPermission().then(function(result) {
+			if(!result == 'granted'){
+				return;
+			}
+
+			var notification = new Notification(message);
+		});
+	}
 });
