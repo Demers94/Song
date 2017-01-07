@@ -14,9 +14,11 @@ body{
 
 .container > h1{
 	text-align: center;
-	font-size: 50px;
+	font-size: 60px;
 	color: #444;
 	margin-top: 0;
+	text-transform: uppercase;
+	letter-spacing: 4px;
 }
 
 .field{margin-bottom: 35px;}
@@ -24,6 +26,7 @@ body{
 .field label{
 	display: block;
 	margin-bottom: 5px;
+	color: #888;
 }
 
 .field input{
@@ -31,12 +34,11 @@ body{
 	width: 100%;
 	font: 17px "Segoe UI";
 	padding: 10px;
-	border-radius: 4px;
 	border: 1px solid #ddd;
 }
 
 .field input:focus{
-	border-color: #55acee;
+	border-color: #444;
 	outline: none;
 }
 
@@ -44,25 +46,18 @@ body{
 
 button{
 	display: inline-block;
-	font: 17px "Segoe UI";
-	padding: 15px 50px;
+	font: 14px "Segoe UI";
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	padding: 20px 100px;
 	border-radius: 4px;
-	background-color: #55acee;
+	background-color: #3498db;
 	color: #fff;
 	border: none;
 	outline: none;
-}
-
-button:hover{
 	cursor: pointer;
 }
 
-/* Notification */
-.notification{
-	padding: 15px;
-	background-color: #07c07c;	
-	color: #fff;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-	margin-bottom: 30px;
-	display: none;
+button:hover{
+	background-color: #2980b9;
 }

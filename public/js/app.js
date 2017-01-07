@@ -1,56 +1,47 @@
-$(function(){
+const socket = io();
 
-	var socket = io();
+document.querySelector('form').addEventListener('submit', (e) => {
 
-	$('form').on('submit', function(){
-		var $url = $('#url');
-		var $title = $('#title');
-		var $artist = $('#artist');
+	e.preventDefault();
 
-		// Get the inputs values.
-		var url = $url.val();
-		var title = $title.val();
-		var artist = $artist.val();
+	let $url = document.querySelector('#url');
+	let $title = document.querySelector('#title');
+	let $artist = document.querySelector('#artist');
 
-		// Make sure that we have something to send to the converter.
-		if(!url.length || !title.length){
-			return false;
+	let url = $url.value;
+	let title = $title.value;
+	let artist = $artist.value;
+
+	// We need the URL of the video
+	if(!url || !url.length || !url.trim().length){
+		return;
+	}
+
+	$url.value = '';
+	$title.value = '';
+	$artist.value = '';
+
+	socket.emit('download song', {
+		url: url,
+		title: title,
+		artist: artist,
+	});
+});
+
+socket.on('download finished', data => {
+	notify('The song "' + data.title + '" has finished downloading.');
+});
+
+function notify(message){
+	Notification.requestPermission().then(result => {
+		if(!result == 'granted'){
+			console.error('You must accept the notifications.')
+			return;
 		}
 
-		// Clear the inputs for the next song.
-		$url.val('');
-		$title.val('');
-		$artist.val('');
-
-		socket.emit('download song', {
-			url: url,
-			title: title,
-			artist: artist,
+		let notification = new Notification('Download complete', {
+			body: message,
+			icon: 'http://www.freeiconspng.com/uploads/accept-tick-icon-12.png',
 		});
-
-		return false;
 	});
-
-	// A download has finished, show the notification.
-	socket.on('download finished', function(data){
-		notify('The song "' + data.title + '" has finished downloading');
-	});
-
-	/**
-	 * Create a Web Notification to tell the user the download is complete.
-	 * @param  {string} message 
-	 * @return {void}         
-	 */
-	function notify(message){
-		Notification.requestPermission().then(function(result) {
-			if(!result == 'granted'){
-				return;
-			}
-
-			var notification = new Notification('Download complete', {
-				body: message,
-				icon: 'http://www.freeiconspng.com/uploads/accept-tick-icon-12.png',
-			});
-		});
-	}
-});
+}
